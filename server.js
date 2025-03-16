@@ -4,7 +4,8 @@ const cors = require("cors");
 process.env.NODE_NO_WARNINGS = "1";
 // Disable all ONNX runtime logging
 process.env.ONNX_RUNTIME_LOG_LEVEL = "3"; // Only show errors (0=verbose, 1=info, 2=warning, 3=error, 4=fatal)
-const { pipeline } = require("@xenova/transformers");
+// Replace require with a variable declaration (will be populated later)
+let pipeline;
 const templates = require("./templates");
 const dictionaries = require("./dictionaries");
 
@@ -45,9 +46,17 @@ const {
   NAUGHTY_PHRASES,
 } = dictionaries;
 
+// Import the module dynamically in the initialization function
+async function importTransformers() {
+  const transformers = await import("@xenova/transformers");
+  pipeline = transformers.pipeline;
+}
+
 async function initializeModels() {
   try {
     console.log("Initialisation des modèles IA...");
+    // First import the transformers module
+    await importTransformers();
     textGenerator = await pipeline("text-generation", AI_MODEL);
     console.log("Modèles IA chargés avec succès!");
   } catch (error) {
