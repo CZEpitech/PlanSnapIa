@@ -1,0 +1,35 @@
+### Test de l'API de génération d'annonces
+### Utilisable avec l'extension "REST Client" dans VS Code
+
+### Vérifier que le serveur est en cours d'exécution
+GET http://localhost:3000/
+Content-Type: application/json
+
+### Générer une annonce de rencontre
+POST http://localhost:3000/api/generer-annonce
+Content-Type: application/json
+
+{
+  "nom": "Sophie",
+  "age": 32,
+  "ville": "Lyon"
+}
+
+### Autre exemple
+POST http://localhost:3000/api/generer-annonce
+Content-Type: application/json
+
+{
+  "nom": "Claire",
+  "age": 27,
+  "ville": "Marseille"
+}
+
+### Test avec paramètres manquants (doit renvoyer une erreur)
+POST http://localhost:3000/api/generer-annonce
+Content-Type: application/json
+
+{
+  "nom": "Marie",
+  "ville": "Toulouse"
+} 
